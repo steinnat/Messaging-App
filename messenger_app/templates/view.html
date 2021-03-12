@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+        
+        <title>Welcome To Chat Room: {{ thread_id }}</title>
+
+        <body>
+            <h1>Chat Room: {{ thread_id }}</h1>
+            <textarea id="thread" cols="80" rows="20"></textarea><br><br>
+            <input id="text" size="80" name="message" placeholder="{{username}} enter message here"><br><br>
+            <a class="action" href="/thread/{{thread_id}}/history?username={{username}}">Chat History</a>
+            <br>
+            <br>
+            <a href="#" onclick="leave_room();">Leave room</a>
+        </body>
+
+        <script type="text/javascript" charset="utf-8">
+            var socket;
+            $(document).ready(function(){
+
+                socket = io.connect('http://' + document.domain + ':' + location.port + '/thread');
+
+                socket.on('connect', function() {
+                    socket.emit('enter', {});
+                });
+
+                socket.on('status', function(data) {
+                    $('#thread').val($('#thread').val() + '<' + data.msg + '>\n');
+                    $('#thread').scrollTop($('#thread')[0].scrollHeight);
+                });
+
+                socket.on('message', function(data) {
+                    $('#thread').val($('#thread').val() + data.msg + '\n');
+                    $('#thread').scrollTop($('#thread')[0].scrollHeight);
+                });
+
+                $('#text').keypress(function(e) {
+                    var code = e.keyCode || e.which;
+                    if (code == 13) {
+                        text = $('#text').val();
+                        $('#text').val('');
+                        socket.emit('text', {msg: text});
+
+                        var xhr = new XMLHttpRequest();
+                        data = new FormData()
+                        xhr.open('POST', '/thread/{{thread_id}}/{{username}}', true);
+                        data.set('message', text)
+                        xhr.send(data)
+                    }
+                });
+            });
+            
+            function leave_room() {
+                socket.emit('leave', {}, function() {
+                    socket.disconnect();
+                    window.location.href = "{{ url_for('landing') }}";
+                });
+            }
+        </script>
+    </head>
+</html>

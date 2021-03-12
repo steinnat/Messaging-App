@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS thread;
+
+CREATE TABLE thread (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  users TEXT NOT NULL,
+  messages TEXT NULL
+);

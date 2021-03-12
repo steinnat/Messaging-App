@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messaging App</title>
+</head>
+    <body>
+        <h1>Messaging App</h1>
+            <h3>Create Chat Room:</h3>
+            <form action="/thread" method="POST">
+                <div>
+                    <label>Enter username:</label>
+                    <input type="text" name="username">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+            <br>
+            <h3>Enter Chat Room:</h3>
+            <form action="/thread" method="GET">
+                <div>
+                    <label>Enter username:</label>
+                    <input type="text" name="username">
+                    <label>Enter thread id:</label>
+                    <input type="text" name="thread_id">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+            <br>
+            <h3>Join Chat Rooms:</h3>
+            {% for thread in threads %}
+                <a class="action" href="/thread/{{ thread['id'] }}/?username=Stranger">Chat Room {{ thread['id'] }}</a>
+                <br>
+                <br>
+            {% endfor %}
+    </body>
+</html>
