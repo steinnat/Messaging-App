@@ -11,7 +11,7 @@ Prerequisite:
     4: Open second terminal, run tests
         -python tests.py
 Execute Test cases.
-    python test.py
+    python tests.py
 """
 
 # Python import
