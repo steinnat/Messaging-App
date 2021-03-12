@@ -11,7 +11,7 @@ Python 3.7
 _______
 2. Install Dependencies: python -m pip install -r requirements.txt (WINDOWS/MAC)
 _______
-3. Set Environment variables: set FLASK_APP=messenger.py (WINDOWS)
+3. Set Environment Variables: set FLASK_APP=messenger.py (WINDOWS)
 _______
 4. Use "flask init-db" create/delete table data (WINDOWS/MAC)
 _______
